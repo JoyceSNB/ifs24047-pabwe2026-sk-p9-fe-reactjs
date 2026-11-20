@@ -24,9 +24,8 @@ export default function StickyNavbar({
           type="button"
           onClick={() => onNavigate('/')}
           className="flex items-center space-x-3 cursor-pointer select-none"
-          aria-label="Delcom Blog"
         >
-          <span className="w-9 h-9 rounded-xl bg-primary-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          <span aria-hidden="true" className="w-9 h-9 rounded-xl bg-primary-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
             D
           </span>
           <span className="font-bold text-slate-900 dark:text-slate-100 text-lg tracking-tight">Delcom Blog</span>

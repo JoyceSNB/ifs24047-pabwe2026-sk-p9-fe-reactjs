@@ -33,7 +33,7 @@ export default function AuthPage({
   }
 
   return (
-    <div
+    <main
       className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-4 transition-colors"
       data-testid="auth-page"
     >
@@ -184,6 +184,6 @@ export default function AuthPage({
           </div>
         </div>
       </div>
-    </div>
+    </main>
   )
 }

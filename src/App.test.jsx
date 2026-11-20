@@ -455,7 +455,7 @@ describe('App', () => {
       expect(await screen.findByTestId('admin-dashboard')).toBeInTheDocument()
       expect(await screen.findByText('member@delcom.org')).toBeInTheDocument()
 
-      fireEvent.click(screen.getByLabelText('Monitoring member'))
+      fireEvent.click(screen.getByLabelText('Monitoring Artikel member'))
       expect(await screen.findByText('Artikel Milik Member')).toBeInTheDocument()
       expect(adminApi.getUserPosts).toHaveBeenCalledWith(2)
     })
@@ -465,7 +465,7 @@ describe('App', () => {
       adminApi.getUserPosts.mockRejectedValue(new Error('gagal monitoring'))
       render(<App />)
 
-      fireEvent.click(await screen.findByLabelText('Monitoring member'))
+      fireEvent.click(await screen.findByLabelText('Monitoring Artikel member'))
       await waitFor(() => expect(showErrorAlert).toHaveBeenCalledWith('gagal monitoring'))
       expect(await screen.findByTestId('empty-inspected')).toBeInTheDocument()
     })

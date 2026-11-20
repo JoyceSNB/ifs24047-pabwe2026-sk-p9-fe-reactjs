@@ -281,3 +281,9 @@
 .dark .toastui-editor .ProseMirror {
   color: #e2e8f0 !important;
 }
+
+/* Kontras teks kutipan (blockquote) pada mode terang */
+.toastui-editor-contents blockquote p,
+.toastui-viewer-container blockquote p {
+  color: #475569 !important;
+}

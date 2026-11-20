@@ -73,7 +73,7 @@ export default function AdminDashboard({ users, posts, onLoadUserPosts }) {
                       <button
                         type="button"
                         onClick={() => handleInspect(u)}
-                        aria-label={`Monitoring ${u.username}`}
+                        aria-label={`Monitoring Artikel ${u.username}`}
                         className="px-3 py-1.5 rounded-lg border border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-950/40 text-xs font-medium cursor-pointer inline-flex items-center gap-1.5"
                       >
                         <IconEye size={14} />

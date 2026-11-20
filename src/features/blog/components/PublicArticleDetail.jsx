@@ -17,7 +17,7 @@ export default function PublicArticleDetail({ post, loading, onBack }) {
 
   if (loading) {
     return (
-      <div className="w-full text-center py-20 text-slate-400" data-testid="article-loading">
+      <div className="w-full min-h-[60vh] text-center py-20 text-slate-400" data-testid="article-loading">
         Memuat artikel...
       </div>
     )
@@ -40,6 +40,10 @@ export default function PublicArticleDetail({ post, loading, onBack }) {
         <img
           src={post.cover_image_path}
           alt={post.title}
+          width="800"
+          height="400"
+          fetchpriority="high"
+          decoding="async"
           className="w-full max-h-[420px] object-cover rounded-2xl border border-slate-200 dark:border-slate-800"
         />
       )}

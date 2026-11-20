@@ -31,7 +31,7 @@ describe('StickyNavbar', () => {
     expect(h.onNavigate).toHaveBeenCalledWith('/register')
     fireEvent.click(screen.getByText('Beranda'))
     expect(h.onNavigate).toHaveBeenCalledWith('/')
-    fireEvent.click(screen.getByLabelText('Delcom Blog'))
+    fireEvent.click(screen.getByRole('button', { name: 'Delcom Blog' }))
     expect(h.onNavigate).toHaveBeenCalledTimes(4)
   })
 

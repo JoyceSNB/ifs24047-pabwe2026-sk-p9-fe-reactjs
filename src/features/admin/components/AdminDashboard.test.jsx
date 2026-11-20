@@ -35,7 +35,7 @@ describe('AdminDashboard', () => {
     ])
     render(<AdminDashboard users={users} posts={[]} onLoadUserPosts={onLoadUserPosts} />)
 
-    fireEvent.click(screen.getByLabelText('Monitoring member'))
+    fireEvent.click(screen.getByLabelText('Monitoring Artikel member'))
     await waitFor(() => expect(screen.getByTestId('inspect-modal')).toBeInTheDocument())
     expect(onLoadUserPosts).toHaveBeenCalledWith(2)
     expect(screen.getByText('Artikel Milik Member')).toBeInTheDocument()
@@ -49,7 +49,7 @@ describe('AdminDashboard', () => {
     const onLoadUserPosts = vi.fn().mockResolvedValue([])
     render(<AdminDashboard users={users} posts={[]} onLoadUserPosts={onLoadUserPosts} />)
 
-    fireEvent.click(screen.getByLabelText('Monitoring admin'))
+    fireEvent.click(screen.getByLabelText('Monitoring Artikel admin'))
     await waitFor(() => expect(screen.getByTestId('empty-inspected')).toBeInTheDocument())
 
     fireEvent.click(screen.getByLabelText('Tutup monitoring'))
