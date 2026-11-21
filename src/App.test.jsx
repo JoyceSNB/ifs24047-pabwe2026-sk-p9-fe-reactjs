@@ -303,7 +303,7 @@ describe('App', () => {
     it('menambah artikel baru lalu memuat ulang data', async () => {
       render(<App />)
       fireEvent.click(await screen.findByText('Tambah Artikel'))
-      expect(screen.getByTestId('post-modal')).toBeInTheDocument()
+      expect(await screen.findByTestId('post-modal')).toBeInTheDocument()
 
       fireEvent.change(screen.getByLabelText('Judul Artikel'), { target: { value: 'Artikel Baru' } })
       fireEvent.change(screen.getByLabelText('Konten Markdown'), { target: { value: 'Isi baru' } })
@@ -321,7 +321,7 @@ describe('App', () => {
     it('membatalkan penambahan artikel dengan menutup modal', async () => {
       render(<App />)
       fireEvent.click(await screen.findByText('Tambah Artikel'))
-      fireEvent.click(screen.getByText('Batal'))
+      fireEvent.click(await screen.findByText('Batal'))
       expect(screen.queryByTestId('post-modal')).not.toBeInTheDocument()
     })
 
@@ -330,7 +330,7 @@ describe('App', () => {
       fireEvent.click(await screen.findByLabelText('Menu Artikel Terbit'))
       fireEvent.click(screen.getByText('Ubah'))
 
-      expect(screen.getByText('Ubah Artikel')).toBeInTheDocument()
+      expect(await screen.findByText('Ubah Artikel')).toBeInTheDocument()
       expect(screen.getByLabelText('Judul Artikel')).toHaveValue('Artikel Terbit')
       fireEvent.change(screen.getByLabelText('Judul Artikel'), { target: { value: 'Judul Diubah' } })
       fireEvent.click(screen.getByText('Simpan Artikel'))
@@ -343,11 +343,11 @@ describe('App', () => {
       blogApi.createPost.mockRejectedValue(new Error('gagal simpan'))
       render(<App />)
       fireEvent.click(await screen.findByText('Tambah Artikel'))
-      fireEvent.change(screen.getByLabelText('Judul Artikel'), { target: { value: 'X' } })
+      fireEvent.change(await screen.findByLabelText('Judul Artikel'), { target: { value: 'X' } })
       fireEvent.click(screen.getByText('Simpan Artikel'))
 
       await waitFor(() => expect(showErrorAlert).toHaveBeenCalledWith('gagal simpan'))
-      expect(screen.getByTestId('post-modal')).toBeInTheDocument()
+      expect(await screen.findByTestId('post-modal')).toBeInTheDocument()
     })
 
     it('men-toggle status terbit/draf', async () => {
@@ -404,7 +404,7 @@ describe('App', () => {
     it('membuat draf lalu membukanya di editor artikel dan menyimpannya', async () => {
       render(<App />)
       fireEvent.click(await screen.findByText('AI Generator'))
-      expect(screen.getByTestId('ai-post-modal')).toBeInTheDocument()
+      expect(await screen.findByTestId('ai-post-modal')).toBeInTheDocument()
 
       fireEvent.change(screen.getByLabelText('Topik Artikel'), { target: { value: 'Belajar Go' } })
       fireEvent.click(screen.getByText('Buat Draf Artikel'))
@@ -417,7 +417,7 @@ describe('App', () => {
 
       fireEvent.click(screen.getByText('Gunakan Draf Ini'))
       expect(screen.queryByTestId('ai-post-modal')).not.toBeInTheDocument()
-      expect(screen.getByLabelText('Judul Artikel')).toHaveValue('Draf AI')
+      expect(await screen.findByLabelText('Judul Artikel')).toHaveValue('Draf AI')
 
       fireEvent.click(screen.getByText('Simpan Artikel'))
       await waitFor(() =>
@@ -429,13 +429,13 @@ describe('App', () => {
       blogApi.generateAiPost.mockRejectedValue(new Error('openai down'))
       render(<App />)
       fireEvent.click(await screen.findByText('AI Generator'))
-      fireEvent.change(screen.getByLabelText('Topik Artikel'), { target: { value: 'Go' } })
+      fireEvent.change(await screen.findByLabelText('Topik Artikel'), { target: { value: 'Go' } })
       fireEvent.click(screen.getByText('Buat Draf Artikel'))
 
       await waitFor(() => expect(showErrorAlert).toHaveBeenCalledWith('openai down'))
       expect(screen.queryByTestId('ai-draft')).not.toBeInTheDocument()
 
-      fireEvent.click(screen.getByText('Batal'))
+      fireEvent.click(await screen.findByText('Batal'))
       expect(screen.queryByTestId('ai-post-modal')).not.toBeInTheDocument()
     })
   })

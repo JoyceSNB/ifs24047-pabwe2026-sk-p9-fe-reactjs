@@ -1,4 +1,5 @@
-import Swal from 'sweetalert2'
+// SweetAlert2 dimuat saat pertama kali dibutuhkan agar tidak membebani muat awal halaman
+const loadSwal = () => import('sweetalert2').then((module) => module.default)
 
 export function formatDate(dateString) {
   if (!dateString) return '-'
@@ -11,7 +12,8 @@ export function formatDate(dateString) {
   })
 }
 
-export function showErrorAlert(message, title = 'Terjadi Kesalahan') {
+export async function showErrorAlert(message, title = 'Terjadi Kesalahan') {
+  const Swal = await loadSwal()
   return Swal.fire({
     icon: 'error',
     title: title,
@@ -20,7 +22,8 @@ export function showErrorAlert(message, title = 'Terjadi Kesalahan') {
   })
 }
 
-export function showSuccessAlert(message, title = 'Berhasil!') {
+export async function showSuccessAlert(message, title = 'Berhasil!') {
+  const Swal = await loadSwal()
   return Swal.fire({
     icon: 'success',
     title: title,
@@ -29,7 +32,8 @@ export function showSuccessAlert(message, title = 'Berhasil!') {
   })
 }
 
-export function showConfirmDialog(message, title = 'Konfirmasi') {
+export async function showConfirmDialog(message, title = 'Konfirmasi') {
+  const Swal = await loadSwal()
   return Swal.fire({
     icon: 'warning',
     title: title,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, lazy, Suspense } from 'react'
 import { apiRequest, setToken, removeToken, getUser, setUser, removeUser } from './services/api'
 import authApi from './features/auth/api/authApi'
 import blogApi from './features/blog/api/blogApi'
@@ -6,13 +6,15 @@ import adminApi from './features/admin/api/adminApi'
 import AuthPage from './features/auth/components/AuthPage'
 import StickyNavbar from './features/blog/components/StickyNavbar'
 import PublicArticleList from './features/blog/components/PublicArticleList'
-import PublicArticleDetail from './features/blog/components/PublicArticleDetail'
 import AuthorDashboard from './features/blog/components/AuthorDashboard'
-import PostModal from './features/blog/modals/PostModal'
-import AiPostGeneratorModal from './features/blog/modals/AiPostGeneratorModal'
 import AdminDashboard from './features/admin/components/AdminDashboard'
 import useTheme from './hooks/useTheme'
 import { showErrorAlert, showConfirmDialog } from './helpers/toolsHelper'
+
+// Komponen yang memuat editor/viewer Markdown dimuat bertahap agar Beranda tetap ringan
+const PublicArticleDetail = lazy(() => import('./features/blog/components/PublicArticleDetail'))
+const PostModal = lazy(() => import('./features/blog/modals/PostModal'))
+const AiPostGeneratorModal = lazy(() => import('./features/blog/modals/AiPostGeneratorModal'))
 
 const EMPTY_STATS = { total: 0, total_terbit: 0, belum_selesai: 0 }
 
@@ -315,28 +317,30 @@ export default function App() {
       )}
 
       <main className={isWorkspace ? 'flex-1 w-full p-4 sm:p-6 lg:p-8' : 'flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 lg:p-8'}>
-        {renderContent()}
+        <Suspense fallback={<div className="text-center py-20 text-slate-400">Memuat...</div>}>{renderContent()}</Suspense>
       </main>
 
-      {postModal && (
-        <PostModal
-          key={postModal.key}
-          post={postModal.post}
-          initialData={postModal.initialData}
-          categories={categories}
-          onClose={() => setPostModal(null)}
-          onSave={handleSavePost}
-        />
-      )}
+      <Suspense fallback={null}>
+        {postModal && (
+          <PostModal
+            key={postModal.key}
+            post={postModal.post}
+            initialData={postModal.initialData}
+            categories={categories}
+            onClose={() => setPostModal(null)}
+            onSave={handleSavePost}
+          />
+        )}
 
-      {isAiOpen && (
-        <AiPostGeneratorModal
-          categories={categories}
-          onClose={() => setIsAiOpen(false)}
-          onGenerate={handleGenerateAi}
-          onUseDraft={handleUseDraft}
-        />
-      )}
+        {isAiOpen && (
+          <AiPostGeneratorModal
+            categories={categories}
+            onClose={() => setIsAiOpen(false)}
+            onGenerate={handleGenerateAi}
+            onUseDraft={handleUseDraft}
+          />
+        )}
+      </Suspense>
     </div>
   )
 }

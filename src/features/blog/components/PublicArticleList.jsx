@@ -60,7 +60,7 @@ export default function PublicArticleList({
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {posts.map((post) => (
+          {posts.map((post, index) => (
             <button
               key={post.id}
               type="button"
@@ -69,7 +69,15 @@ export default function PublicArticleList({
               className="text-left bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-xs hover:shadow-md overflow-hidden transition cursor-pointer flex flex-col"
             >
               {post.cover_image_path ? (
-                <img src={post.cover_image_path} alt={post.title} className="w-full h-40 object-cover" />
+                <img
+                  src={post.cover_image_path}
+                  alt={post.title}
+                  width={800}
+                  height={400}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  className="w-full h-40 object-cover"
+                />
               ) : (
                 <div className="w-full h-40 bg-gradient-to-br from-primary-500 to-primary-700" />
               )}

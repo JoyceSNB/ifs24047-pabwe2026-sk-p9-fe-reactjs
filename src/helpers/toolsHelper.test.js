@@ -18,7 +18,7 @@ describe('toolsHelper', () => {
   it('triggers Swal.fire for alerts and confirm dialog', async () => {
     const swalSpy = vi.spyOn(Swal, 'fire').mockResolvedValue({ isConfirmed: true })
 
-    showErrorAlert('Error happened')
+    await showErrorAlert('Error happened')
     expect(swalSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         icon: 'error',
@@ -26,7 +26,7 @@ describe('toolsHelper', () => {
       })
     )
 
-    showSuccessAlert('Success happened')
+    await showSuccessAlert('Success happened')
     expect(swalSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         icon: 'success',
