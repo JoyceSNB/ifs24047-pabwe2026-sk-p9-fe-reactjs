@@ -99,4 +99,17 @@ describe('apiHelper', () => {
     })
     await expect(apiHelper.fetchData('/bad2')).rejects.toThrow('Request failed with status 500')
   })
+
+  it('menyertakan status HTTP pada error', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: false,
+      status: 401,
+      json: async () => ({ message: 'Unauthorized: Invalid or expired token' }),
+    })
+
+    await expect(apiHelper.fetchData('/secret')).rejects.toMatchObject({
+      message: 'Unauthorized: Invalid or expired token',
+      status: 401,
+    })
+  })
 })

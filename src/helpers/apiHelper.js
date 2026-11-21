@@ -58,7 +58,9 @@ const apiHelper = (() => {
 
     const result = await response.json().catch(() => ({}))
     if (!response.ok) {
-      throw new Error(result.message || result.error || `Request failed with status ${response.status}`)
+      const error = new Error(result.message || result.error || `Request failed with status ${response.status}`)
+      error.status = response.status
+      throw error
     }
     return result
   }

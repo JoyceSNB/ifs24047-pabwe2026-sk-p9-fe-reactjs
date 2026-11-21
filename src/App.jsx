@@ -46,11 +46,28 @@ export default function App() {
 
   const notify = (message) => setStatusMessage(message)
 
-  // Membungkus aksi async agar error apa pun tampil sebagai dialog
+  // Membersihkan sesi login beserta seluruh data milik pengguna
+  const clearSession = () => {
+    removeToken()
+    removeUser()
+    setCurrentUser(null)
+    setStats(EMPTY_STATS)
+    setMyPosts([])
+    setAdminUsers([])
+    setAdminPosts([])
+  }
+
+  // Membungkus aksi async agar error apa pun tampil sebagai dialog.
+  // Token kedaluwarsa (401) cukup mengakhiri sesi tanpa dialog error.
   const guard = async (action) => {
     try {
       await action()
     } catch (err) {
+      if (err.status === 401) {
+        clearSession()
+        notify('Sesi berakhir, silakan masuk kembali.')
+        return
+      }
       showErrorAlert(err.message)
     }
   }
@@ -134,13 +151,7 @@ export default function App() {
 
   const handleLogout = async () => {
     await apiRequest('/auth/logout', 'POST').catch(() => {})
-    removeToken()
-    removeUser()
-    setCurrentUser(null)
-    setStats(EMPTY_STATS)
-    setMyPosts([])
-    setAdminUsers([])
-    setAdminPosts([])
+    clearSession()
     notify('Berhasil keluar.')
     navigate('/')
   }
